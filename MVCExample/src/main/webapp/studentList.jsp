@@ -25,6 +25,9 @@
                 <tr>
                     <td><%= student.getStudentName() %></td>
                     <td><%= student.getStudentAddress() %></td>
+                    <!-- For edit and delete --> 
+                    <td><a href="StudentController?studentIdForEdit=<%=student.getStudentId()%>"  >Edit</a></td>
+                    <td><a href="StudentController?studentIdForDelete=<%=student.getStudentId()%>"  >Delete</a></td>
                 </tr>
                 <%}%>
             </table> 

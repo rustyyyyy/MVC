@@ -46,6 +46,8 @@ public class StudentDao {
 
             while (rs.next()) {
                 Student student = new Student();
+                //get ID 
+                student.setStudentId(rs.getInt("studentId"));
                 student.setStudentName(rs.getString("studentName"));
                 student.setStudentAddress(rs.getString("studentAddress"));
                 studentList.add(student);
@@ -56,5 +58,21 @@ public class StudentDao {
 
         }
         return null;
+    }
+    
+    public void deleteStudent(int studentId){
+     try {
+            Connection con = DbConnection.getConnection();
+            String qry = "delete from student where studentId=?";
+            PreparedStatement ps = con.prepareStatement(qry);
+            ps.setInt(1, studentId);
+            ps.execute();
+            con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    
     }
 }

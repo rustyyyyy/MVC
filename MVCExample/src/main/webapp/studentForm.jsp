@@ -16,7 +16,7 @@
         <form action="StudentController" method="post" >
             Student Name: <input type="text" name="studentName"><br><br>
             Student Address:<input type="text" name="studentAddress"><br>
-            <input type="submit" value="Add">
+            <input type="submit" value="Add" name="addStudent">
         </form>
     </body>
 </html>

@@ -35,31 +35,32 @@ public class StudentController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            String studentName = request.getParameter("studentName");
-            String studentAddress = request.getParameter("studentAddress");
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet StudentController</title>");            
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Details " + studentName+"  "+studentAddress + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
 
-            Student stud = new Student();
-            stud.setStudentName(studentName);
-            stud.setStudentAddress(studentAddress);
-            
-            StudentDao sd = new StudentDao();
-            sd.insertStudent(stud);
-            
-            List<Student> studentList = sd.getStudentList();
-            request.setAttribute("studentList", studentList);
-            RequestDispatcher rd = request.getRequestDispatcher("studentList.jsp");
-            rd.forward(request, response);
-            
+            if (request.getParameter("addStudent") != null && request.getParameter("addStudent").equals("Add")) {
+                String studentName = request.getParameter("studentName");
+                String studentAddress = request.getParameter("studentAddress");
+
+                Student stud = new Student();
+                stud.setStudentName(studentName);
+                stud.setStudentAddress(studentAddress);
+
+                StudentDao sd = new StudentDao();
+                sd.insertStudent(stud);
+
+                List<Student> studentList = sd.getStudentList();
+                request.setAttribute("studentList", studentList);
+                RequestDispatcher rd = request.getRequestDispatcher("studentList.jsp");
+                rd.forward(request, response);
+            } else if (request.getParameter("studentIdForDelete") != null) {
+                String studentId = request.getParameter("studentIdForDelete");
+                StudentDao sd = new StudentDao();
+                sd.deleteStudent(Integer.parseInt(studentId));
+                
+                List<Student> studentList = sd.getStudentList();
+                request.setAttribute("studentList", studentList);
+                RequestDispatcher rd = request.getRequestDispatcher("studentList.jsp");
+                rd.forward(request, response);
+            }
         }
     }
 
