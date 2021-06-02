@@ -75,4 +75,48 @@ public class StudentDao {
         }
     
     }
+    
+    public Student getStudent(int studentId){
+      try {
+           Student student = new Student();
+            Connection con = DbConnection.getConnection();
+            String qry = "select * from student where studentId=?";
+            PreparedStatement pst = con.prepareStatement(qry);
+            pst.setInt(1, studentId);
+            ResultSet rs = pst.executeQuery();
+            
+            while (rs.next()) {
+                student.setStudentId(rs.getInt("studentId"));
+                student.setStudentName(rs.getString("studentName"));
+                student.setStudentAddress(rs.getString("studentAddress"));
+               
+            }
+            return student;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return null;
+    
+    }
+    
+    public void updateStudent(Student student){
+     try {
+            Connection con = DbConnection.getConnection();
+            String qry = "update student set studentName=? ,studentAddress=? where studentId=?";
+            PreparedStatement ps = con.prepareStatement(qry);
+            ps.setString(1, student.getStudentName());
+            ps.setString(2, student.getStudentAddress());
+            ps.setInt(3, student.getStudentId());
+            ps.execute();
+            con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    
+    
+    
+    }
 }

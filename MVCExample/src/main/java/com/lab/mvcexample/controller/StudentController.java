@@ -60,6 +60,33 @@ public class StudentController extends HttpServlet {
                 request.setAttribute("studentList", studentList);
                 RequestDispatcher rd = request.getRequestDispatcher("studentList.jsp");
                 rd.forward(request, response);
+            } else if(request.getParameter("studentIdForEdit") != null){
+            
+                String studentId = request.getParameter("studentIdForEdit");
+                StudentDao sd = new StudentDao();
+                Student student = sd.getStudent(Integer.parseInt(studentId));
+                request.setAttribute("student", student);
+                RequestDispatcher rd = request.getRequestDispatcher("studentForm.jsp");
+                rd.forward(request, response);
+                
+                
+            }else if (request.getParameter("addStudent") != null && request.getParameter("addStudent").equals("Edit")) {
+                String studentId = request.getParameter("studentId");
+                String studentName = request.getParameter("studentName");
+                String studentAddress = request.getParameter("studentAddress");
+
+                Student stud = new Student();
+                stud.setStudentId(Integer.parseInt(studentId));
+                stud.setStudentName(studentName);
+                stud.setStudentAddress(studentAddress);
+
+                StudentDao sd = new StudentDao();
+                sd.updateStudent(stud);
+
+                List<Student> studentList = sd.getStudentList();
+                request.setAttribute("studentList", studentList);
+                RequestDispatcher rd = request.getRequestDispatcher("studentList.jsp");
+                rd.forward(request, response);
             }
         }
     }

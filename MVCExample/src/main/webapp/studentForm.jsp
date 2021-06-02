@@ -4,6 +4,7 @@
     Author     : Marut
 --%>
 
+<%@page import="com.lab.mvcexample.controller.model.Student"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,9 +15,18 @@
     <body>
         <h1>Student Form</h1>
         <form action="StudentController" method="post" >
-            Student Name: <input type="text" name="studentName"><br><br>
-            Student Address:<input type="text" name="studentAddress"><br>
-            <input type="submit" value="Add" name="addStudent">
+            <% Student student = (Student) request.getAttribute("student");
+
+                if (student == null) {
+                    student = new Student();
+                    student.setStudentName("");
+                    student.setStudentAddress("");
+                }
+            %>
+            <input type="hidden" name="studentId" value="<%=student.getStudentId()%>">
+            Student Name: <input type="text" name="studentName" value="<%=student.getStudentName()%>"><br><br>
+            Student Address:<input type="text" name="studentAddress" value="<%=student.getStudentAddress()%>"><br>
+            <input type="submit" value="<%=student.getStudentId()==0?"Add":"Edit"%>" name="addStudent">
         </form>
     </body>
 </html>
