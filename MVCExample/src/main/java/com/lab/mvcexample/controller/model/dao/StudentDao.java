@@ -46,8 +46,8 @@ public class StudentDao {
 
             while (rs.next()) {
                 Student student = new Student();
-                //get ID 
-                student.setStudentId(rs.getInt("studentId"));
+                //get ID setIdstudent(rs.getInt("id"));
+                student.setStudentId(rs.getInt("id"));
                 student.setStudentName(rs.getString("studentName"));
                 student.setStudentAddress(rs.getString("studentAddress"));
                 studentList.add(student);
@@ -60,12 +60,12 @@ public class StudentDao {
         return null;
     }
     
-    public void deleteStudent(int studentId){
+    public void deleteStudent(int id){
      try {
             Connection con = DbConnection.getConnection();
-            String qry = "delete from student where studentId=?";
+            String qry = "delete from student where id=?";
             PreparedStatement ps = con.prepareStatement(qry);
-            ps.setInt(1, studentId);
+            ps.setInt(1, id);
             ps.execute();
             con.close();
 
@@ -76,17 +76,17 @@ public class StudentDao {
     
     }
     
-    public Student getStudent(int studentId){
+    public Student getStudent(int id){
       try {
            Student student = new Student();
             Connection con = DbConnection.getConnection();
-            String qry = "select * from student where studentId=?";
+            String qry = "select * from student where id=?";
             PreparedStatement pst = con.prepareStatement(qry);
-            pst.setInt(1, studentId);
+            pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             
             while (rs.next()) {
-                student.setStudentId(rs.getInt("studentId"));
+                student.setStudentId(rs.getInt("id"));
                 student.setStudentName(rs.getString("studentName"));
                 student.setStudentAddress(rs.getString("studentAddress"));
                
@@ -103,7 +103,7 @@ public class StudentDao {
     public void updateStudent(Student student){
      try {
             Connection con = DbConnection.getConnection();
-            String qry = "update student set studentName=? ,studentAddress=? where studentId=?";
+            String qry = "update student set studentName=? ,studentAddress=? where id=?";
             PreparedStatement ps = con.prepareStatement(qry);
             ps.setString(1, student.getStudentName());
             ps.setString(2, student.getStudentAddress());
