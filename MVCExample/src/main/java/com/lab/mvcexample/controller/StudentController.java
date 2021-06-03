@@ -6,6 +6,7 @@
 package com.lab.mvcexample.controller;
 
 import com.lab.mvcexample.controller.model.Student;
+import com.lab.mvcexample.controller.model.dao.IDao;
 import com.lab.mvcexample.controller.model.dao.StudentDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -44,7 +45,7 @@ public class StudentController extends HttpServlet {
                 stud.setStudentName(studentName);
                 stud.setStudentAddress(studentAddress);
 
-                StudentDao sd = new StudentDao();
+                IDao sd = new StudentDao();
                 sd.insertStudent(stud);
 
                 List<Student> studentList = sd.getStudentList();
@@ -53,7 +54,7 @@ public class StudentController extends HttpServlet {
                 rd.forward(request, response);
             } else if (request.getParameter("studentIdForDelete") != null) {
                 String studentId = request.getParameter("studentIdForDelete");
-                StudentDao sd = new StudentDao();
+                IDao sd = new StudentDao();
                 sd.deleteStudent(Integer.parseInt(studentId));
                 
                 List<Student> studentList = sd.getStudentList();
@@ -63,7 +64,7 @@ public class StudentController extends HttpServlet {
             } else if(request.getParameter("studentIdForEdit") != null){
             
                 String studentId = request.getParameter("studentIdForEdit");
-                StudentDao sd = new StudentDao();
+                IDao sd = new StudentDao();
                 Student student = sd.getStudent(Integer.parseInt(studentId));
                 request.setAttribute("student", student);
                 RequestDispatcher rd = request.getRequestDispatcher("studentForm.jsp");
@@ -80,7 +81,7 @@ public class StudentController extends HttpServlet {
                 stud.setStudentName(studentName);
                 stud.setStudentAddress(studentAddress);
 
-                StudentDao sd = new StudentDao();
+                IDao sd = new StudentDao();
                 sd.updateStudent(stud);
 
                 List<Student> studentList = sd.getStudentList();

@@ -14,7 +14,18 @@ import java.sql.DriverManager;
  */
 public class DbConnection {
 
-    public static Connection getConnection() {
+    private static DbConnection dbc;
+
+    private DbConnection() {
+    }
+
+    public static DbConnection getInstance() {
+        if (dbc == null) {
+            dbc = new DbConnection();
+        }
+        return dbc;
+    }
+    public  Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb","root","1234");

@@ -17,11 +17,15 @@ import java.util.List;
  *
  * @author Marut
  */
-public class StudentDao {
+public class StudentDao implements IDao {
 
+    DbConnection db = DbConnection.getInstance();
+
+    @Override
     public void insertStudent(Student student) {
         try {
-            Connection con = DbConnection.getConnection();
+
+            Connection con = db.getConnection();
             String qry = "insert into student(studentName,studentAddress) values(?,?)";
             PreparedStatement ps = con.prepareStatement(qry);
             ps.setString(1, student.getStudentName());
@@ -36,10 +40,11 @@ public class StudentDao {
 
     }
 
+    @Override
     public List<Student> getStudentList() {
         try {
             List<Student> studentList = new ArrayList<Student>();
-            Connection con = DbConnection.getConnection();
+            Connection con = db.getConnection();
             String qry = "select * from student";
             PreparedStatement pst = con.prepareStatement(qry);
             ResultSet rs = pst.executeQuery();
@@ -59,10 +64,11 @@ public class StudentDao {
         }
         return null;
     }
-    
-    public void deleteStudent(int id){
-     try {
-            Connection con = DbConnection.getConnection();
+
+    public void deleteStudent(int id) {
+
+        try {
+            Connection con = db.getConnection();
             String qry = "delete from student where id=?";
             PreparedStatement ps = con.prepareStatement(qry);
             ps.setInt(1, id);
@@ -73,23 +79,24 @@ public class StudentDao {
             e.printStackTrace();
 
         }
-    
+
     }
-    
-    public Student getStudent(int id){
-      try {
-           Student student = new Student();
-            Connection con = DbConnection.getConnection();
+
+    @Override
+    public Student getStudent(int id) {
+        try {
+            Student student = new Student();
+            Connection con = db.getConnection();
             String qry = "select * from student where id=?";
             PreparedStatement pst = con.prepareStatement(qry);
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
-            
+
             while (rs.next()) {
                 student.setStudentId(rs.getInt("id"));
                 student.setStudentName(rs.getString("studentName"));
                 student.setStudentAddress(rs.getString("studentAddress"));
-               
+
             }
             return student;
         } catch (Exception e) {
@@ -97,12 +104,13 @@ public class StudentDao {
 
         }
         return null;
-    
+
     }
-    
-    public void updateStudent(Student student){
-     try {
-            Connection con = DbConnection.getConnection();
+
+    @Override
+    public void updateStudent(Student student) {
+        try {
+            Connection con = db.getConnection();
             String qry = "update student set studentName=? ,studentAddress=? where id=?";
             PreparedStatement ps = con.prepareStatement(qry);
             ps.setString(1, student.getStudentName());
@@ -115,8 +123,6 @@ public class StudentDao {
             e.printStackTrace();
 
         }
-    
-    
-    
+
     }
 }
