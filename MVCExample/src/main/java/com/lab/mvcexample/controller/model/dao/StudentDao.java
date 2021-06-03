@@ -17,11 +17,14 @@ import java.util.List;
  *
  * @author Marut
  */
-public class StudentDao {
-
+public class StudentDao implements IDao {
+    
+            DbConnection db = DbConnection.getInstance();
+    @Override
     public void insertStudent(Student student) {
         try {
-            Connection con = DbConnection.getConnection();
+           
+            Connection con = db.getConnection();
             String qry = "insert into student(studentName,studentAddress) values(?,?)";
             PreparedStatement ps = con.prepareStatement(qry);
             ps.setString(1, student.getStudentName());
@@ -36,10 +39,11 @@ public class StudentDao {
 
     }
 
+    @Override
     public List<Student> getStudentList() {
         try {
             List<Student> studentList = new ArrayList<Student>();
-            Connection con = DbConnection.getConnection();
+            Connection con = db.getConnection();
             String qry = "select * from student";
             PreparedStatement pst = con.prepareStatement(qry);
             ResultSet rs = pst.executeQuery();
@@ -60,9 +64,10 @@ public class StudentDao {
         return null;
     }
     
+    @Override
     public void deleteStudent(int studentId){
      try {
-            Connection con = DbConnection.getConnection();
+            Connection con = db.getConnection();
             String qry = "delete from student where studentId=?";
             PreparedStatement ps = con.prepareStatement(qry);
             ps.setInt(1, studentId);
@@ -76,10 +81,11 @@ public class StudentDao {
     
     }
     
+    @Override
     public Student getStudent(int studentId){
       try {
            Student student = new Student();
-            Connection con = DbConnection.getConnection();
+            Connection con = db.getConnection();
             String qry = "select * from student where studentId=?";
             PreparedStatement pst = con.prepareStatement(qry);
             pst.setInt(1, studentId);
@@ -100,9 +106,11 @@ public class StudentDao {
     
     }
     
+    @Override
     public void updateStudent(Student student){
      try {
-            Connection con = DbConnection.getConnection();
+         
+            Connection con = db.getConnection();
             String qry = "update student set studentName=? ,studentAddress=? where studentId=?";
             PreparedStatement ps = con.prepareStatement(qry);
             ps.setString(1, student.getStudentName());
